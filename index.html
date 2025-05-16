@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Who Fucked This</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Arial Black', sans-serif;
+      text-align: center;
+      padding-top: 20vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 4em;
+      text-shadow: 0 0 10px red, 0 0 20px red, 0 0 30px darkred;
+      animation: pulse 2s infinite;
+    }
+
+    .name {
+      font-size: 6em;
+      color: #ff0000;
+      text-shadow: 0 0 15px red, 0 0 30px crimson, 0 0 40px orangered;
+      animation: glow 1.5s infinite alternate;
+      margin-top: 40px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px red, 0 0 20px orangered;
+      }
+      to {
+        text-shadow: 0 0 25px crimson, 0 0 40px red;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Who Fucked This?</h1>
+  <div class="name">DANIEL</div>
+</body>
+</html>
