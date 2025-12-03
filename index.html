@@ -7,38 +7,38 @@
     @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
     body {
-      background-color: #0a0000;
+      background-color: #001a0f;
       margin: 0;
       padding: 0;
       font-family: 'Staatliches', sans-serif;
-      color: #ff0000;
+      color: #00ff7f;
       text-align: center;
       padding-top: 20vh;
-      background-image: radial-gradient(circle, #220000 0%, #0a0000 100%);
+      background-image: radial-gradient(circle, #003322 0%, #001a0f 100%);
       animation: flickerBg 10s infinite alternate;
     }
 
     h1 {
       font-size: 5em;
-      color: #ff1a1a;
+      color: #00ff7f;
       letter-spacing: 3px;
       text-shadow:
-        0 0 10px #ff0000,
-        0 0 20px #8b0000,
-        0 0 40px #ff1a1a,
-        0 0 60px #ff0000;
+        0 0 10px #00ff7f,
+        0 0 20px #00e676,
+        0 0 40px #00ff7f,
+        0 0 60px #00e676;
       animation: glitch 2s infinite;
     }
 
     .name {
       font-size: 3em;
-      color: #ffffff;
+      color: #ccffea;
       margin-top: 40px;
       text-shadow:
-        0 0 5px #ff4c4c,
-        0 0 20px #ff1a1a,
-        0 0 40px #ff0000,
-        0 0 60px #8b0000;
+        0 0 10px #00e676,
+        0 0 20px #00ff7f,
+        0 0 40px #00e676,
+        0 0 60px #00ff7f;
       animation: burn 1.5s infinite alternate;
     }
 
@@ -54,24 +54,24 @@
     @keyframes burn {
       from {
         text-shadow:
-          0 0 10px #ff4c4c,
-          0 0 20px #ff1a1a,
-          0 0 30px #8b0000;
-        color: #fff0f0;
+          0 0 10px #00e676,
+          0 0 20px #00ff7f,
+          0 0 30px #003322;
+        color: #e6fff7;
       }
       to {
         text-shadow:
-          0 0 20px #ff0000,
-          0 0 40px #ff1a1a,
-          0 0 60px #8b0000;
-        color: #ffdddd;
+          0 0 20px #00ff7f,
+          0 0 40px #00e676,
+          0 0 60px #003322;
+        color: #ccffee;
       }
     }
 
     @keyframes flickerBg {
-      0% { background-color: #0a0000; }
-      50% { background-color: #1a0000; }
-      100% { background-color: #0a0000; }
+      0% { background-color: #001a0f; }
+      50% { background-color: #002619; }
+      100% { background-color: #001a0f; }
     }
   </style>
 </head>
