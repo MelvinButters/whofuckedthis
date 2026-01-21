@@ -1,82 +1,82 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Who Fucked This</title>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
     body {
-      background-color: #001a0f;
+      background-color: #0a0000;
       margin: 0;
       padding: 0;
       font-family: 'Staatliches', sans-serif;
-      color: #00ff7f;
+      color: #ff3b3b;
       text-align: center;
       padding-top: 20vh;
-      background-image: radial-gradient(circle, #003322 0%, #001a0f 100%);
-      animation: flickerBg 10s infinite alternate;
+
+      background-image: radial-gradient(circle, #1a0000 0%, #0a0000 100%);
     }
 
     h1 {
       font-size: 5em;
-      color: #00ff7f;
       letter-spacing: 3px;
+      color: #ff1e1e;
+
       text-shadow:
-        0 0 10px #00ff7f,
-        0 0 20px #00e676,
-        0 0 40px #00ff7f,
-        0 0 60px #00e676;
-      animation: glitch 2s infinite;
+        0 0 10px #ff1e1e,
+        0 0 20px #a80000,
+        0 0 30px #ff1e1e;
+
+      animation: subtle-glitch 3s infinite;
     }
 
     .name {
-      font-size: 3em;
-      color: #ccffea;
+      font-size: 2.5em;
       margin-top: 40px;
+      color: #ffcccc;
+
       text-shadow:
-        0 0 10px #00e676,
-        0 0 20px #00ff7f,
-        0 0 40px #00e676,
-        0 0 60px #00ff7f;
-      animation: burn 1.5s infinite alternate;
+        0 0 10px #a80000,
+        0 0 20px #ff1e1e;
+
+      animation: subtle-burn 2s infinite alternate;
     }
 
-    @keyframes glitch {
-      0% { transform: translate(0); opacity: 1; }
-      20% { transform: translate(-2px, 2px); opacity: 0.9; }
-      40% { transform: translate(2px, -1px); opacity: 1; }
-      60% { transform: translate(-1px, 1px); opacity: 0.95; }
-      80% { transform: translate(1px, -2px); opacity: 1; }
-      100% { transform: translate(0); opacity: 1; }
+    @keyframes subtle-glitch {
+      0% { transform: none; opacity: 1; }
+      20% { transform: translate(-1px, 1px); opacity: 0.97; }
+      40% { transform: translate(1px, -1px); opacity: 1; }
+      60% { transform: translate(-1px, -1px); opacity: 0.98; }
+      100% { transform: none; opacity: 1; }
     }
 
-    @keyframes burn {
+    @keyframes subtle-burn {
       from {
         text-shadow:
-          0 0 10px #00e676,
-          0 0 20px #00ff7f,
-          0 0 30px #003322;
-        color: #e6fff7;
+          0 0 10px #a80000,
+          0 0 20px #ff1e1e;
+        color: #ffd1d1;
       }
       to {
         text-shadow:
-          0 0 20px #00ff7f,
-          0 0 40px #00e676,
-          0 0 60px #003322;
-        color: #ccffee;
+          0 0 20px #ff1e1e,
+          0 0 40px #a80000;
+        color: #ffb3b3;
       }
     }
 
-    @keyframes flickerBg {
-      0% { background-color: #001a0f; }
-      50% { background-color: #002619; }
-      100% { background-color: #001a0f; }
-    }
   </style>
 </head>
 <body>
   <h1>Who Fucked This?</h1>
-  <div class="name">Peter - Completely fucked up by offboarding Flav instead of the end-user. What a fucking dumbass.</div>
+
+  <div class="name">
+    Toby – Completely fucked up by re‑using an old ScreenConnect host and
+    connecting to a random computer. Scared the absolute fucking shit out of old mate.
+  </div>
 </body>
 </html>
+``
