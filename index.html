@@ -7,39 +7,79 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
+    :root {
+      --neon-pink: #ff2bdc;
+      --neon-cyan: #00fff0;
+      --dark-bg: #050014;
+    }
+
     body {
-      background-color: #120000;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
       font-family: 'Staatliches', sans-serif;
-      color: #e04a4a;
+      color: var(--neon-cyan);
       text-align: center;
+      background-color: var(--dark-bg);
+
+      /* Tiny cartoon shark pattern (SVG) */
+      background-image:
+        url("data:image/svg+xml;utf8,\
+        <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>\
+          <text x='10' y='50' font-size='40'>🦈</text>\
+        </svg>");
+      background-repeat: repeat;
+    }
+
+    .overlay {
+      background: radial-gradient(
+        circle at top,
+        rgba(0, 255, 240, 0.15),
+        rgba(5, 0, 20, 0.9) 70%
+      );
+      min-height: 100vh;
       padding-top: 25vh;
     }
 
     h1 {
-      font-size: 4em;
-      letter-spacing: 2px;
-      color: #d83a3a;
+      font-size: 4.5em;
+      letter-spacing: 3px;
       margin-bottom: 30px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      color: var(--neon-pink);
+      text-shadow:
+        0 0 10px rgba(255, 43, 220, 0.8),
+        0 0 20px rgba(255, 43, 220, 0.6),
+        0 0 40px rgba(255, 43, 220, 0.4);
     }
 
     .name {
-      font-size: 1.8em;
+      font-size: 2em;
       max-width: 900px;
       margin: 0 auto;
-      color: #f0c2c2;
       line-height: 1.4;
+      color: #ffffff;
+      text-shadow:
+        0 0 6px rgba(0, 255, 240, 0.6);
+    }
+
+    .sharks {
+      margin-top: 40px;
+      font-size: 2rem;
+      filter: drop-shadow(0 0 6px var(--neon-cyan));
     }
   </style>
 </head>
 <body>
-  <h1>Who Fucked This?</h1>
+  <div class="overlay">
+    <h1>Who Fucked This?</h1>
 
-  <div class="name">
-    Jerome – Completely fucked that Maroochydoore phone cutover!
-    Set it to Adelaide timezone LOL!!!
+    <div class="name">
+      Jerome – Completely fucked up all printers at Port Lincoln!!! Now they fucking hate us!!!
+    </div>
+
+    <div class="sharks">
+      🦈 🦈 🦈 🦈 🦈
+    </div>
   </div>
 </body>
 </html>
