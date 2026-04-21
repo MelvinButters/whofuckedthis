@@ -8,64 +8,71 @@
     @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
     :root {
-      --neon-red: #ff3b3b;
-      --dark-bg: #050014;
+      --acid-pink: #ff00ff;
+      --neon-green: #00ff9c;
+      --electric-blue: #00e5ff;
+      --acid-yellow: #ffee00;
+      --void-black: #020025;
     }
 
     body {
       margin: 0;
-      padding: 0;
       min-height: 100vh;
       font-family: 'Staatliches', sans-serif;
       text-align: center;
-      background-color: var(--dark-bg);
-
-      /* Repeating tiny shark background */
-      background-image:
-        url("data:image/svg+xml;utf8,\
-        <svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'>\
-          <text x='10' y='50' font-size='40'>🦈</text>\
-        </svg>");
-      background-repeat: repeat;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          var(--acid-pink),
+          var(--acid-pink) 30px,
+          var(--electric-blue) 30px,
+          var(--electric-blue) 60px
+        );
     }
 
     .overlay {
       min-height: 100vh;
-      padding-top: 25vh;
-      background: radial-gradient(
-        circle at top,
-        rgba(0, 0, 0, 0.3),
-        rgba(0, 0, 0, 0.85) 70%
-      );
+      padding-top: 20vh;
+      background:
+        radial-gradient(
+          circle,
+          rgba(0,0,0,0.2),
+          var(--void-black) 70%
+        );
+      backdrop-filter: blur(4px);
     }
 
     h1 {
-      font-size: 4.5em;
-      letter-spacing: 3px;
+      font-size: 5em;
+      letter-spacing: 5px;
       margin-bottom: 30px;
-      color: var(--neon-red);
+      color: var(--acid-yellow);
+      text-transform: uppercase;
 
-      /* Black outline + glow for readability */
       text-shadow:
-        -2px -2px 0 #000,
-         2px -2px 0 #000,
-        -2px  2px 0 #000,
-         2px  2px 0 #000,
-         0 0 12px rgba(255, 59, 59, 0.7);
+        -4px -4px 0 var(--acid-pink),
+         4px -4px 0 var(--neon-green),
+        -4px  4px 0 var(--electric-blue),
+         4px  4px 0 #000,
+         0 0 25px var(--acid-yellow);
     }
 
     .name {
-      font-size: 2em;
+      font-size: 2.2em;
       max-width: 900px;
       margin: 0 auto;
+      padding: 25px;
       line-height: 1.4;
-      color: #ff6b6b;
-
-      text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
+      background: linear-gradient(
+        135deg,
+        var(--neon-green),
+        var(--electric-blue)
+      );
+      color: #000;
+      border: 6px solid var(--acid-pink);
+      box-shadow:
+        0 0 20px var(--neon-green),
+        inset 0 0 15px #fff;
     }
   </style>
 </head>
@@ -74,7 +81,7 @@
     <h1>Who Fucked This?</h1>
 
     <div class="name">
-      Karloskar – Completely fucked the NBN migration! Did it immmediately instead of booking it, and fucked EVERYTHING!
+      Karloskar – Completely fucked the NBN migration. Did it immediately instead of booking it and nuked everything.
     </div>
   </div>
 </body>
