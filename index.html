@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Who Fucked This</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 2rem; }
+    .story { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    textarea, input { width: 100%; padding: 0.5rem; margin: 0.5rem 0; box-sizing: border-box; }
+    button { background: #e63946; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🔥 Who Fucked This?</h1>
+  <p>Share a glorious workplace disaster. All in good fun.</p>
+
+  <h2>Submit your story</h2>
+  <input id="title" placeholder="Give it a title (e.g. 'The Great Database Wipe of 2023')" />
+  <input id="author" placeholder="Your name or alias (optional)" />
+  <textarea id="story" rows="6" placeholder="What happened..."></textarea>
+  <button onclick="submitStory()">Submit for review</button>
+  <p id="msg" style="color:green"></p>
+
+  <hr />
+  <h2>Hall of Shame</h2>
+  <div id="stories">Loading...</div>
+
+  <script>
+    const SUPABASE_URL = 'YOUR_PROJECT_URL';   // 🔁 replace this
+    const SUPABASE_KEY = 'YOUR_ANON_KEY';       // 🔁 replace this
+
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadStories() {
+      const { data, error } = await db
+        .from('stories')
+        .select('*')
+        .eq('approved', true)
+        .order('created_at', { ascending: false });
+
+      const el = document.getElementById('stories');
+      if (error || !data.length) {
+        el.innerHTML = '<p>No stories yet. Be the first to confess.</p>';
+        return;
+      }
+      el.innerHTML = data.map(s => `
+        <div class="story">
+          <h3>${s.title}</h3>
+          <p>${s.story}</p>
+          <small>— ${s.submitted_by} · ${new Date(s.created_at).toLocaleDateString()}</small>
+        </div>
+      `).join('');
+    }
+
+    async function submitStory() {
+      const title = document.getElementById('title').value.trim();
+      const story = document.getElementById('story').value.trim();
+      const author = document.getElementById('author').value.trim() || 'Anonymous';
+
+      if (!title || !story) { alert('Need a title and a story!'); return; }
+
+      const { error } = await db.from('stories').insert([{
+        title, story, submitted_by: author
+      }]);
+
+      if (error) { alert('Something went wrong: ' + error.message); return; }
+      document.getElementById('msg').textContent = '✅ Submitted! Awaiting approval.';
+      document.getElementById('title').value = '';
+      document.getElementById('story').value = '';
+      document.getElementById('author').value = '';
+    }
+
+    loadStories();
+  </script>
+</body>
+</html>
