@@ -19,10 +19,9 @@
   </style>
 </head>
 <body>
-  <h1>🔥 Who Fucked This?</h1>
+  <h1>Who Fucked This?</h1>
   <p>Share a glorious workplace disaster. All in good fun.</p>
   <h2>Submit your story</h2>
-  <!-- Honeypot field - hidden from humans, bots will fill it in -->
   <input id="honeypot" style="display:none" tabindex="-1" autocomplete="off" />
   <input id="title" placeholder="Give it a title (e.g. 'The Great Database Wipe of 2023')" />
   <input id="author" placeholder="Your name or alias (optional)" />
@@ -45,60 +44,74 @@
         .eq('approved', true)
         .order('created_at', { ascending: false });
       const el = document.getElementById('stories');
-      if (error || !data.length) {
+      if (error || !data || !data.length) {
         el.innerHTML = '<p>No stories yet. Be the first to confess.</p>';
         return;
       }
       el.innerHTML = data.map(s => {
         const voted = localStorage.getItem('voted_' + s.id);
-        const yeahDisabled = voted ? 'disabled' : '';
-        const nahDisabled = voted ? 'disabled' : '';
         const yeahLabel = voted === 'yeah' ? '+ Yeah, they really fucked that' : 'Yeah, they really fucked that';
         const nahLabel = voted === 'nah' ? '+ Nah, anyone could have fucked that' : 'Nah, anyone could have fucked that';
         return `
-          <div class="story" id="story-${s.id}">
+          <div class="story">
             <h3>${s.title}</h3>
             <p>${s.story}</p>
             <small>— ${s.submitted_by} · ${new Date(s.created_at).toLocaleDateString('en-AU')}</small>
             <div class="vote-bar">
-              <button class="vote-btn vote-yeah" id="yeah-${s.id}" onclick="vote(${s.id}, 'yeah')" ${yeahDisabled}>
+              <button class="vote-btn vote-yeah" id="yeah-${s.id}" ${voted ? 'disabled' : ''}>
                 ${yeahLabel} (${s.votes_yeah || 0})
               </button>
-              <button class="vote-btn vote-nah" id="nah-${s.id}" onclick="vote(${s.id}, 'nah')" ${nahDisabled}>
+              <button class="vote-btn vote-nah" id="nah-${s.id}" ${voted ? 'disabled' : ''}>
                 ${nahLabel} (${s.votes_nah || 0})
               </button>
             </div>
           </div>
         `;
       }).join('');
+
+      // Attach vote listeners after rendering (avoids UUID issues in onclick)
+      data.forEach(s => {
+        const yeahBtn = document.getElementById('yeah-' + s.id);
+        const nahBtn = document.getElementById('nah-' + s.id);
+        if (yeahBtn) yeahBtn.addEventListener('click', () => vote(s.id, 'yeah'));
+        if (nahBtn) nahBtn.addEventListener('click', () => vote(s.id, 'nah'));
+      });
     }
 
     async function vote(id, type) {
       if (localStorage.getItem('voted_' + id)) return;
 
-      // Disable buttons immediately to prevent double clicks
-      document.getElementById('yeah-' + id).disabled = true;
-      document.getElementById('nah-' + id).disabled = true;
+      const yeahBtn = document.getElementById('yeah-' + id);
+      const nahBtn = document.getElementById('nah-' + id);
+      yeahBtn.disabled = true;
+      nahBtn.disabled = true;
 
       const field = type === 'yeah' ? 'votes_yeah' : 'votes_nah';
 
-      // Get current count then increment
-      const { data: current } = await db.from('stories').select(field).eq('id', id).single();
-      const newCount = (current[field] || 0) + 1;
-      const { error } = await db.from('stories').update({ [field]: newCount }).eq('id', id);
+      // Read current value, increment, then update
+      const { data: row, error: fetchErr } = await db
+        .from('stories').select(field).eq('id', id).single();
 
-      if (error) {
-        alert('Vote failed, try again.');
-        document.getElementById('yeah-' + id).disabled = false;
-        document.getElementById('nah-' + id).disabled = false;
+      if (fetchErr) {
+        alert('Vote failed: ' + fetchErr.message);
+        yeahBtn.disabled = false;
+        nahBtn.disabled = false;
+        return;
+      }
+
+      const newCount = (row[field] || 0) + 1;
+      const { error: updateErr } = await db
+        .from('stories').update({ [field]: newCount }).eq('id', id);
+
+      if (updateErr) {
+        alert('Vote failed: ' + updateErr.message);
+        yeahBtn.disabled = false;
+        nahBtn.disabled = false;
         return;
       }
 
       localStorage.setItem('voted_' + id, type);
 
-      // Update button labels and counts
-      const yeahBtn = document.getElementById('yeah-' + id);
-      const nahBtn = document.getElementById('nah-' + id);
       if (type === 'yeah') {
         yeahBtn.textContent = `+ Yeah, they really fucked that (${newCount})`;
       } else {
@@ -107,10 +120,8 @@
     }
 
     async function submitStory() {
-      // Honeypot check
       if (document.getElementById('honeypot').value) return;
 
-      // Rate limit: 60 seconds between submissions
       const last = localStorage.getItem('last_submit');
       if (last && Date.now() - last < 60000) {
         alert('Please wait a moment before submitting again.');
@@ -122,13 +133,11 @@
       const author = document.getElementById('author').value.trim() || 'Anonymous';
       if (!title || !story) { alert('Need a title and a story!'); return; }
 
-      const { error } = await db.from('stories').insert([{
-        title, story, submitted_by: author
-      }]);
+      const { error } = await db.from('stories').insert([{ title, story, submitted_by: author }]);
       if (error) { alert('Something went wrong: ' + error.message); return; }
 
       localStorage.setItem('last_submit', Date.now());
-      document.getElementById('msg').textContent = '✅ Submitted! Awaiting approval.';
+      document.getElementById('msg').textContent = 'Submitted! Awaiting approval.';
       document.getElementById('title').value = '';
       document.getElementById('story').value = '';
       document.getElementById('author').value = '';
