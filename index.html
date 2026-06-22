@@ -9,27 +9,32 @@
     .story { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
     textarea, input { width: 100%; padding: 0.5rem; margin: 0.5rem 0; box-sizing: border-box; }
     button { background: #e63946; color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+    .vote-bar { display: flex; justify-content: space-between; margin-top: 1rem; gap: 0.5rem; }
+    .vote-btn { flex: 1; padding: 0.25rem 0.5rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.72rem; font-weight: bold; transition: opacity 0.2s; }
+    .vote-btn:disabled { opacity: 0.6; cursor: default; }
+    .vote-yeah { background: #ff6b6b; color: white; }
+    .vote-nah { background: #4a9eff; color: white; }
+    .vote-yeah:hover:not(:disabled) { background: #e63946; }
+    .vote-nah:hover:not(:disabled) { background: #2d7dd2; }
   </style>
 </head>
 <body>
   <h1>🔥 Who Fucked This?</h1>
-  <p>Share a glorious workplace disaster. Who fucked up?</p>
-
+  <p>Share a glorious workplace disaster. All in good fun.</p>
   <h2>Submit your story</h2>
+  <!-- Honeypot field - hidden from humans, bots will fill it in -->
+  <input id="honeypot" style="display:none" tabindex="-1" autocomplete="off" />
   <input id="title" placeholder="Give it a title (e.g. 'The Great Database Wipe of 2023')" />
   <input id="author" placeholder="Your name or alias (optional)" />
   <textarea id="story" rows="6" placeholder="What happened..."></textarea>
   <button onclick="submitStory()">Submit for review</button>
   <p id="msg" style="color:green"></p>
-
   <hr />
   <h2>Hall of Shame</h2>
   <div id="stories">Loading...</div>
-
   <script>
     const SUPABASE_URL = 'https://ddsubdciciwocybesmbj.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_5P6b5qhOY4CXfr7Tb-0a9w_uVOb_gey';
-
     const { createClient } = supabase;
     const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -39,33 +44,90 @@
         .select('*')
         .eq('approved', true)
         .order('created_at', { ascending: false });
-
       const el = document.getElementById('stories');
       if (error || !data.length) {
         el.innerHTML = '<p>No stories yet. Be the first to confess.</p>';
         return;
       }
-      el.innerHTML = data.map(s => `
-        <div class="story">
-          <h3>${s.title}</h3>
-          <p>${s.story}</p>
-          <small>— ${s.submitted_by} · ${new Date(s.created_at).toLocaleDateString('en-AU')}</small>
-        </div>
-      `).join('');
+      el.innerHTML = data.map(s => {
+        const voted = localStorage.getItem('voted_' + s.id);
+        const yeahDisabled = voted ? 'disabled' : '';
+        const nahDisabled = voted ? 'disabled' : '';
+        const yeahLabel = voted === 'yeah' ? '+ Yeah, they really fucked that' : 'Yeah, they really fucked that';
+        const nahLabel = voted === 'nah' ? '+ Nah, anyone could have fucked that' : 'Nah, anyone could have fucked that';
+        return `
+          <div class="story" id="story-${s.id}">
+            <h3>${s.title}</h3>
+            <p>${s.story}</p>
+            <small>— ${s.submitted_by} · ${new Date(s.created_at).toLocaleDateString('en-AU')}</small>
+            <div class="vote-bar">
+              <button class="vote-btn vote-yeah" id="yeah-${s.id}" onclick="vote(${s.id}, 'yeah')" ${yeahDisabled}>
+                ${yeahLabel} (${s.votes_yeah || 0})
+              </button>
+              <button class="vote-btn vote-nah" id="nah-${s.id}" onclick="vote(${s.id}, 'nah')" ${nahDisabled}>
+                ${nahLabel} (${s.votes_nah || 0})
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function vote(id, type) {
+      if (localStorage.getItem('voted_' + id)) return;
+
+      // Disable buttons immediately to prevent double clicks
+      document.getElementById('yeah-' + id).disabled = true;
+      document.getElementById('nah-' + id).disabled = true;
+
+      const field = type === 'yeah' ? 'votes_yeah' : 'votes_nah';
+
+      // Get current count then increment
+      const { data: current } = await db.from('stories').select(field).eq('id', id).single();
+      const newCount = (current[field] || 0) + 1;
+      const { error } = await db.from('stories').update({ [field]: newCount }).eq('id', id);
+
+      if (error) {
+        alert('Vote failed, try again.');
+        document.getElementById('yeah-' + id).disabled = false;
+        document.getElementById('nah-' + id).disabled = false;
+        return;
+      }
+
+      localStorage.setItem('voted_' + id, type);
+
+      // Update button labels and counts
+      const yeahBtn = document.getElementById('yeah-' + id);
+      const nahBtn = document.getElementById('nah-' + id);
+      if (type === 'yeah') {
+        yeahBtn.textContent = `+ Yeah, they really fucked that (${newCount})`;
+      } else {
+        nahBtn.textContent = `+ Nah, anyone could have fucked that (${newCount})`;
+      }
     }
 
     async function submitStory() {
+      // Honeypot check
+      if (document.getElementById('honeypot').value) return;
+
+      // Rate limit: 60 seconds between submissions
+      const last = localStorage.getItem('last_submit');
+      if (last && Date.now() - last < 60000) {
+        alert('Please wait a moment before submitting again.');
+        return;
+      }
+
       const title = document.getElementById('title').value.trim();
       const story = document.getElementById('story').value.trim();
       const author = document.getElementById('author').value.trim() || 'Anonymous';
-
       if (!title || !story) { alert('Need a title and a story!'); return; }
 
       const { error } = await db.from('stories').insert([{
         title, story, submitted_by: author
       }]);
-
       if (error) { alert('Something went wrong: ' + error.message); return; }
+
+      localStorage.setItem('last_submit', Date.now());
       document.getElementById('msg').textContent = '✅ Submitted! Awaiting approval.';
       document.getElementById('title').value = '';
       document.getElementById('story').value = '';
