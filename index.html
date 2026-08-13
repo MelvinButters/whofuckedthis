@@ -3,224 +3,353 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Who Fucked This</title>
+<title>★彡 WHO FUCKED THIS 彡★</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Shrikhand&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rubik+Glitch&family=Bowlby+One+SC&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --locto-orange: #e14817;
-    --locto-teal:   #298398;
-    --bubblegum:    #ff2d95;
-    --lime:         #b6ff00;
-    --grape:        #7c00ff;
-    --cyan:         #00e0ff;
-    --cream:        #fff7e0;
-    --ink:          #12002b;
-  }
-
   * { box-sizing: border-box; }
+
+  html { background: #000; }
 
   body {
     margin: 0;
     min-height: 100vh;
-    display: grid;
-    place-items: center;
-    padding: 6vh 4vw;
     overflow-x: hidden;
-    background: var(--ink);
-    font-family: 'Space Mono', monospace;
-    color: var(--ink);
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    cursor: crosshair;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3vh 3vw;
+    animation: strobe-hue 9s linear infinite;
   }
+  @keyframes strobe-hue { to { filter: hue-rotate(360deg); } }
 
-  /* ── the big spinning carnival wheel behind everything ── */
+  /* rotating rainbow pinwheel */
   body::before {
     content: "";
-    position: fixed;
-    inset: -60vmax;
-    z-index: -2;
+    position: fixed; inset: -70vmax; z-index: -3;
     background: conic-gradient(
-      var(--bubblegum) 0 8.33%, var(--lime) 0 16.66%,
-      var(--cyan) 0 25%,          var(--locto-orange) 0 33.33%,
-      var(--grape) 0 41.66%,      var(--cream) 0 50%,
-      var(--locto-teal) 0 58.33%, var(--bubblegum) 0 66.66%,
-      var(--lime) 0 75%,          var(--cyan) 0 83.33%,
-      var(--locto-orange) 0 91.66%, var(--grape) 0 100%
-    );
-    animation: spin 40s linear infinite;
+      #ff0055 0 6.25%, #ff8800 0 12.5%, #ffee00 0 18.75%, #66ff00 0 25%,
+      #00ffaa 0 31.25%, #00d4ff 0 37.5%, #4400ff 0 43.75%, #cc00ff 0 50%,
+      #ff0055 0 56.25%, #ff8800 0 62.5%, #ffee00 0 68.75%, #66ff00 0 75%,
+      #00ffaa 0 81.25%, #00d4ff 0 87.5%, #4400ff 0 93.75%, #cc00ff 0 100%);
+    animation: spin 14s linear infinite;
   }
-
-  /* ── harlequin diamonds on top of the wheel ── */
+  /* scrolling checkerboard on top */
   body::after {
     content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
     background:
-      repeating-conic-gradient(from 45deg, rgba(18,0,43,.55) 0 25%, transparent 0 50%) 0 0 / 90px 90px,
-      radial-gradient(circle at 50% 40%, transparent 20%, rgba(18,0,43,.75) 85%);
+      repeating-conic-gradient(from 45deg, rgba(0,0,0,.62) 0 25%, transparent 0 50%) 0 0/70px 70px;
+    animation: crawl 3s linear infinite;
   }
-
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes crawl { to { background-position: 70px 70px; } }
 
-  .board {
-    position: relative;
-    width: min(760px, 100%);
-    text-align: center;
-    animation: wobble 6s ease-in-out infinite;
-  }
-  @keyframes wobble {
-    0%, 100% { transform: rotate(-1.2deg); }
-    50%      { transform: rotate(1.2deg); }
-  }
-
-  /* ── starburst that rotates behind the title ── */
-  .burst {
-    position: absolute;
-    top: -12%;
-    left: 50%;
-    width: 130%;
-    aspect-ratio: 1;
-    translate: -50% 0;
-    z-index: -1;
-    background: repeating-conic-gradient(
-      from 0deg,
-      var(--acid, var(--lime)) 0 3deg,
-      transparent 0 9deg
-    );
-    opacity: .5;
-    animation: spin 24s linear infinite reverse;
-    mask: radial-gradient(circle, #000 30%, transparent 72%);
-  }
-
-  h1 {
-    margin: 0 0 .1em;
-    font-family: 'Bungee Shade', system-ui;
-    font-size: clamp(2.4rem, 11vw, 6rem);
-    line-height: .95;
+  /* ══ TOP MARQUEE ══ */
+  .strip {
+    position: fixed; left: 0; right: 0; z-index: 9;
+    background: #000; color: #0f0;
+    font-family: 'Rubik Glitch', monospace;
+    font-size: clamp(.8rem, 3vw, 1.2rem);
     letter-spacing: 2px;
-    color: var(--cream);
-    text-transform: uppercase;
-    text-shadow:
-      3px 3px 0 var(--bubblegum),
-      6px 6px 0 var(--locto-teal),
-      9px 9px 0 var(--ink);
+    border-block: 5px ridge #ff0;
+    padding: 6px 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .strip.top { top: 0; }
+  .strip.bottom { bottom: 0; border-color: #f0f; color: #ff0; }
+  .strip i {
+    display: inline-block;
+    padding-right: 2rem;
+    animation: slide 18s linear infinite;
+    font-style: normal;
+  }
+  .strip.bottom i { animation-duration: 26s; animation-direction: reverse; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* ══ STAGE ══ */
+  .stage {
+    position: relative;
+    width: min(880px, 100%);
+    text-align: center;
+    margin: 8vh 0;
   }
 
-  .eyebrow {
-    display: inline-block;
-    margin-bottom: 1.4em;
-    padding: .35em 1.2em;
-    font-size: clamp(.65rem, 2.4vw, .85rem);
-    letter-spacing: .35em;
+  .burst {
+    position: absolute; top: 50%; left: 50%;
+    width: 160%; aspect-ratio: 1;
+    translate: -50% -50%;
+    z-index: -1;
+    background: repeating-conic-gradient(from 0deg, #fff 0 2.5deg, transparent 0 8deg);
+    opacity: .35;
+    animation: spin 30s linear infinite reverse;
+    -webkit-mask: radial-gradient(circle, #000 25%, transparent 70%);
+            mask: radial-gradient(circle, #000 25%, transparent 70%);
+  }
+
+  /* ══ TITLE — every letter its own idiot ══ */
+  h1 {
+    margin: 0 0 .35em;
+    font-family: 'Bowlby One SC', cursive;
+    font-size: clamp(2rem, 9.5vw, 5.5rem);
     text-transform: uppercase;
-    color: var(--ink);
-    background: var(--lime);
-    border: 3px solid var(--ink);
+    line-height: 1;
+    -webkit-text-stroke: 3px #000;
+  }
+  h1 b {
+    display: inline-block;
+    font-weight: normal;
+    animation: hop .9s ease-in-out infinite alternate;
+    text-shadow: 0 0 18px currentColor, 5px 5px 0 #000;
+  }
+  h1 .sp { width: .3em; }
+  @keyframes hop {
+    from { transform: translateY(0) rotate(-9deg) scale(1); }
+    to   { transform: translateY(-22px) rotate(9deg) scale(1.18); }
+  }
+
+  /* ══ THE ACCUSED ══ */
+  .frame {
+    position: relative;
+    padding: clamp(1.2rem, 4vw, 2.4rem);
+    background:
+      repeating-linear-gradient(-45deg, #ffe100 0 22px, #000 0 44px);
+    border: 10px double #fff;
+    border-radius: 50% 8% 50% 8%;
+    box-shadow: 0 0 0 8px #ff0099, 0 0 60px 12px #00fff2, 12px 12px 0 #4400ff;
+    animation: shimmy 1.6s ease-in-out infinite;
+  }
+  @keyframes shimmy {
+    0%,100% { transform: rotate(-2.5deg) scale(1); }
+    50%     { transform: rotate(2.5deg) scale(1.02); }
+  }
+
+  .inner {
+    background: #12002b;
+    border: 6px groove #0ff;
+    padding: clamp(1rem, 4vw, 2rem) 1rem;
+    border-radius: 40% 6% 40% 6%;
+  }
+
+  .name {
+    margin: 0;
+    font-family: 'Bungee Spice', cursive;
+    font-size: clamp(3.2rem, 20vw, 9rem);
+    line-height: .9;
+    animation: throb 1.1s ease-in-out infinite;
+  }
+  @keyframes throb {
+    0%,100% { transform: scale(1) rotate(-1deg); }
+    50%     { transform: scale(1.09) rotate(1deg); }
+  }
+
+  .crime {
+    margin: .8em auto 0;
+    max-width: 30ch;
+    font-size: clamp(1.05rem, 4.2vw, 1.6rem);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 0 #000, 0 0 14px #ff0099;
+  }
+  .crime em {
+    font-style: normal;
+    background: #ffee00; color: #000;
+    padding: 0 .3em;
+    display: inline-block;
+    rotate: -3deg;
+    box-shadow: 3px 3px 0 #ff0055;
+  }
+  .crime .yell {
+    display: block;
+    margin-top: .5em;
+    font-family: 'Rubik Glitch', cursive;
+    color: #66ff00;
+    font-size: 1.15em;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: .15; } }
+
+  /* stickers */
+  .sticker {
+    position: absolute;
+    font-family: 'Bowlby One SC', cursive;
+    font-size: clamp(.85rem, 3.5vw, 1.6rem);
+    padding: .45em .8em;
+    border-radius: 999px;
+    border: 5px dotted #000;
+    z-index: 5;
+    animation: bobble 2.3s ease-in-out infinite;
+  }
+  .s1 { top: -6%; left: -5%;  background: #66ff00; color: #000; rotate: -18deg; }
+  .s2 { bottom: -8%; right: -4%; background: #ff0099; color: #fff; rotate: 14deg; animation-delay: .4s; }
+  .s3 { top: 40%; right: -9%; background: #00d4ff; color: #000; rotate: 8deg; animation-delay: .8s; }
+  @keyframes bobble {
+    0%,100% { transform: translateY(0) scale(1); }
+    50%     { transform: translateY(-14px) scale(1.12); }
+  }
+
+  /* floaters */
+  .floater {
+    position: fixed;
+    bottom: -12vh;
+    font-size: 2.6rem;
+    z-index: 3;
+    pointer-events: none;
+    animation: rise linear forwards;
+  }
+  @keyframes rise {
+    to { transform: translateY(-125vh) rotate(720deg); opacity: 0; }
+  }
+
+  .spark {
+    position: fixed;
+    pointer-events: none;
+    z-index: 99;
+    font-size: 1.4rem;
+    animation: fade .8s ease-out forwards;
+  }
+  @keyframes fade {
+    to { transform: translateY(-30px) scale(.2) rotate(180deg); opacity: 0; }
+  }
+
+  /* retro counter */
+  .counter {
+    margin-top: 2.5rem;
+    display: inline-block;
+    font-family: 'Rubik Glitch', monospace;
+    background: #000;
+    color: #ff0;
+    border: 5px outset #888;
+    padding: .5em 1em;
+    font-size: clamp(.75rem, 2.8vw, 1rem);
+    letter-spacing: 3px;
     rotate: -2deg;
   }
+  .counter span { color: #0f0; }
 
-  /* ── the verdict card ── */
-  .verdict {
-    position: relative;
-    padding: clamp(1.5rem, 5vw, 2.75rem);
-    background:
-      repeating-linear-gradient(-45deg, rgba(255,255,255,.35) 0 14px, transparent 0 28px),
-      linear-gradient(150deg, var(--cyan), var(--cream) 45%, var(--bubblegum));
-    border: 8px solid var(--ink);
-    border-radius: 26px 6px 26px 6px;
-    box-shadow: 14px 14px 0 var(--grape), 0 0 0 4px var(--cream) inset;
-    rotate: 1.5deg;
-  }
-
-  .culprit {
-    margin: 0;
-    font-family: 'Shrikhand', cursive;
-    font-size: clamp(2.6rem, 14vw, 5.5rem);
-    line-height: 1;
-    color: var(--locto-orange);
-    text-shadow: 4px 4px 0 var(--cream), 7px 7px 0 var(--ink);
-  }
-
-  .charge {
-    margin: .6em auto 0;
-    max-width: 34ch;
-    font-size: clamp(1rem, 3.4vw, 1.35rem);
-    line-height: 1.5;
-  }
-  .charge b { background: var(--acid-hl, var(--lime)); padding: 0 .25em; }
-
-  /* ── rubber stamp that slams in on load ── */
-  .stamp {
-    position: absolute;
-    right: -4%;
-    bottom: -10%;
-    padding: .5em .9em;
-    font-family: 'Bungee Shade', system-ui;
-    font-size: clamp(1.1rem, 4.5vw, 2rem);
-    color: var(--bubblegum);
-    border: 6px double var(--bubblegum);
-    border-radius: 8px;
-    background: rgba(255,247,224,.9);
-    rotate: -14deg;
-    animation: slam .7s cubic-bezier(.2,1.6,.4,1) .5s both;
-  }
-  @keyframes slam {
-    from { scale: 4; opacity: 0; rotate: 12deg; }
-    to   { scale: 1; opacity: 1; rotate: -14deg; }
-  }
-
-  /* ── damage ticker ── */
-  .ticker {
-    margin-top: 2.2rem;
-    overflow: hidden;
-    border-block: 5px solid var(--lime);
-    background: var(--ink);
-    color: var(--lime);
-    rotate: -1deg;
-  }
-  .ticker span {
-    display: inline-block;
-    padding: .6em 0;
-    white-space: nowrap;
-    font-size: clamp(.7rem, 2.6vw, .95rem);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    animation: slide 22s linear infinite;
-  }
-  @keyframes slide {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+  .shake { animation: quake .4s linear; }
+  @keyframes quake {
+    10%,90% { transform: translate(-6px, 3px) rotate(-1deg); }
+    30%,70% { transform: translate(8px, -5px) rotate(1.5deg); }
+    50%     { transform: translate(-9px, 6px) rotate(-2deg); }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; }
+    *, *::before, *::after { animation-duration: 12s !important; }
   }
 </style>
 </head>
 <body>
-  <main class="board">
-    <div class="burst" aria-hidden="true"></div>
 
-    <span class="eyebrow">Incident board &middot; site-wide</span>
-    <h1>Who Fucked This?</h1>
+<div class="strip top"><i id="tickA"></i></div>
 
-    <section class="verdict">
-      <p class="culprit">Jerome</p>
-      <p class="charge">
-        Pushed the <b>CIPP templates</b> live and completely fucked
-        <b>MFA prompts</b> for the entire site. Everyone. All of them.
+<main class="stage">
+  <div class="burst" aria-hidden="true"></div>
+
+  <h1 id="title" aria-label="Who Fucked This?"></h1>
+
+  <section class="frame">
+    <span class="sticker s1" aria-hidden="true">HE DID IT</span>
+    <span class="sticker s2" aria-hidden="true">GUILTY!!!</span>
+    <span class="sticker s3" aria-hidden="true">NO TAKEBACKS</span>
+    <div class="inner">
+      <p class="name">JEROME</p>
+      <p class="crime">
+        Shoved the <em>CIPP templates</em> LIVE and completely fucked
+        <em>MFA prompts</em> for the ENTIRE site.
+        <span class="yell">&#9760; NOBODY CAN LOG IN &#9760;</span>
       </p>
-      <div class="stamp">Guilty</div>
-    </section>
-
-    <div class="ticker" aria-hidden="true">
-      <span>
-        CIPP templates &rarr; live &nbsp;&bull;&nbsp; MFA prompts &rarr; cooked &nbsp;&bull;&nbsp; blast radius &rarr; whole site &nbsp;&bull;&nbsp; test tenant &rarr; unused &nbsp;&bull;&nbsp;
-        CIPP templates &rarr; live &nbsp;&bull;&nbsp; MFA prompts &rarr; cooked &nbsp;&bull;&nbsp; blast radius &rarr; whole site &nbsp;&bull;&nbsp; test tenant &rarr; unused &nbsp;&bull;&nbsp;
-      </span>
     </div>
-  </main>
+  </section>
+
+  <div class="counter">FUCK-UPS SINCE LAST FUCK-UP: <span id="hits">000000</span></div>
+</main>
+
+<div class="strip bottom"><i id="tickB"></i></div>
+
+<script>
+  /* ── title: one <b> per letter, rainbow cycled, staggered hop ── */
+  const COLORS = ['#ff0055','#ff8800','#ffee00','#66ff00','#00ffaa','#00d4ff','#cc00ff'];
+  const title = document.getElementById('title');
+  [...'WHO FUCKED THIS?'].forEach((ch, i) => {
+    const b = document.createElement('b');
+    if (ch === ' ') { b.className = 'sp'; b.innerHTML = '&nbsp;'; }
+    else {
+      b.textContent = ch;
+      b.style.color = COLORS[i % COLORS.length];
+    }
+    b.style.animationDelay = (i * 0.07) + 's';
+    title.appendChild(b);
+  });
+
+  /* ── tickers ── */
+  const A = ' ★ CIPP TEMPLATES: LIVE ★ MFA PROMPTS: OBLITERATED ★ BLAST RADIUS: EVERYONE ★ TEST TENANT: UNTOUCHED ★ JEROME: BANNED FROM THE BIG RED BUTTON ★ ';
+  const B = ' ☠ 400 UNREAD TICKETS ☠ PHONES MELTING ☠ "it worked in my head" — J. ☠ PLEASE HOLD ☠ ';
+  document.getElementById('tickA').textContent = A.repeat(4);
+  document.getElementById('tickB').textContent = B.repeat(5);
+
+  /* ── drifting doom emoji ── */
+  const DOOM = ['🔐','🚨','🤡','💀','🔥','📵','🙃','🧯','☠️','🫠'];
+  setInterval(() => {
+    const f = document.createElement('div');
+    f.className = 'floater';
+    f.textContent = DOOM[Math.floor(Math.random() * DOOM.length)];
+    f.style.left = Math.random() * 96 + 'vw';
+    f.style.animationDuration = (5 + Math.random() * 5) + 's';
+    f.style.fontSize = (1.6 + Math.random() * 2.4) + 'rem';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 10000);
+  }, 380);
+
+  /* ── cursor sparkle trail ── */
+  let last = 0;
+  addEventListener('pointermove', e => {
+    if (performance.now() - last < 55) return;
+    last = performance.now();
+    const s = document.createElement('div');
+    s.className = 'spark';
+    s.textContent = ['✦','✧','★','✸','💥'][Math.floor(Math.random() * 5)];
+    s.style.left = e.clientX + 'px';
+    s.style.top = e.clientY + 'px';
+    s.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  });
+
+  /* ── click = earthquake + confetti dump ── */
+  addEventListener('click', e => {
+    document.body.classList.remove('shake');
+    void document.body.offsetWidth;
+    document.body.classList.add('shake');
+    for (let i = 0; i < 26; i++) {
+      const c = document.createElement('div');
+      c.className = 'spark';
+      c.textContent = '▮';
+      c.style.left = e.clientX + 'px';
+      c.style.top = e.clientY + 'px';
+      c.style.color = COLORS[i % COLORS.length];
+      c.style.transition = 'transform .9s ease-out, opacity .9s';
+      document.body.appendChild(c);
+      requestAnimationFrame(() => {
+        c.style.transform = `translate(${(Math.random()-.5)*460}px,${(Math.random()-.5)*460}px) rotate(${Math.random()*900}deg)`;
+        c.style.opacity = 0;
+      });
+      setTimeout(() => c.remove(), 1000);
+    }
+  });
+
+  /* ── counter that climbs forever ── */
+  let n = 0;
+  const hits = document.getElementById('hits');
+  setInterval(() => {
+    n += Math.floor(Math.random() * 7) + 1;
+    hits.textContent = String(n).padStart(6, '0');
+  }, 220);
+</script>
 </body>
 </html>
