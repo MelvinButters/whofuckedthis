@@ -10,19 +10,22 @@
 <style>
   * { box-sizing: border-box; }
 
-  html { background: #000; }
+  /* ══ no scrollbars, ever ══ */
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+  }
 
   body {
     margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden;
-    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
-    cursor: crosshair;
+    height: 100dvh;
+    padding: 3.4rem 4vw;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3vh 3vw;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    cursor: crosshair;
     animation: strobe-hue 9s linear infinite;
   }
   @keyframes strobe-hue { to { filter: hue-rotate(360deg); } }
@@ -49,15 +52,15 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes crawl { to { background-position: 70px 70px; } }
 
-  /* ══ TOP MARQUEE ══ */
+  /* ══ MARQUEES ══ */
   .strip {
     position: fixed; left: 0; right: 0; z-index: 9;
     background: #000; color: #0f0;
     font-family: 'Rubik Glitch', monospace;
-    font-size: clamp(.8rem, 3vw, 1.2rem);
+    font-size: clamp(.7rem, 2.4vw, 1.05rem);
     letter-spacing: 2px;
     border-block: 5px ridge #ff0;
-    padding: 6px 0;
+    padding: 5px 0;
     white-space: nowrap;
     overflow: hidden;
   }
@@ -75,14 +78,19 @@
   /* ══ STAGE ══ */
   .stage {
     position: relative;
-    width: min(880px, 100%);
+    width: min(760px, 100%);
     text-align: center;
-    margin: 8vh 0;
+  }
+  .stage.shake { animation: quake .4s linear; }
+  @keyframes quake {
+    10%,90% { transform: translate(-6px, 3px) rotate(-1deg); }
+    30%,70% { transform: translate(8px, -5px) rotate(1.5deg); }
+    50%     { transform: translate(-9px, 6px) rotate(-2deg); }
   }
 
   .burst {
     position: absolute; top: 50%; left: 50%;
-    width: 160%; aspect-ratio: 1;
+    width: 150%; aspect-ratio: 1;
     translate: -50% -50%;
     z-index: -1;
     background: repeating-conic-gradient(from 0deg, #fff 0 2.5deg, transparent 0 8deg);
@@ -94,13 +102,15 @@
 
   /* ══ TITLE — every letter its own idiot ══ */
   h1 {
-    margin: 0 0 .35em;
+    margin: 0 0 .2em;
+    padding: .2em 0;
     font-family: 'Bowlby One SC', cursive;
-    font-size: clamp(2rem, 9.5vw, 5.5rem);
+    font-size: clamp(1.3rem, 6.2vw, 3.9rem);
     text-transform: uppercase;
-    line-height: 1;
+    line-height: 1.1;
     -webkit-text-stroke: 3px #000;
   }
+  h1 .word { display: inline-block; white-space: nowrap; }
   h1 b {
     display: inline-block;
     font-weight: normal;
@@ -110,15 +120,14 @@
   h1 .sp { width: .3em; }
   @keyframes hop {
     from { transform: translateY(0) rotate(-9deg) scale(1); }
-    to   { transform: translateY(-22px) rotate(9deg) scale(1.18); }
+    to   { transform: translateY(-16px) rotate(9deg) scale(1.15); }
   }
 
   /* ══ THE ACCUSED ══ */
   .frame {
     position: relative;
-    padding: clamp(1.2rem, 4vw, 2.4rem);
-    background:
-      repeating-linear-gradient(-45deg, #ffe100 0 22px, #000 0 44px);
+    padding: clamp(.9rem, 3vw, 1.8rem);
+    background: repeating-linear-gradient(-45deg, #ffe100 0 22px, #000 0 44px);
     border: 10px double #fff;
     border-radius: 50% 8% 50% 8%;
     box-shadow: 0 0 0 8px #ff0099, 0 0 60px 12px #00fff2, 12px 12px 0 #4400ff;
@@ -132,26 +141,26 @@
   .inner {
     background: #12002b;
     border: 6px groove #0ff;
-    padding: clamp(1rem, 4vw, 2rem) 1rem;
+    padding: clamp(.8rem, 3vw, 1.6rem) 1rem;
     border-radius: 40% 6% 40% 6%;
   }
 
   .name {
     margin: 0;
     font-family: 'Bungee Spice', cursive;
-    font-size: clamp(3.2rem, 20vw, 9rem);
+    font-size: clamp(2.4rem, 13vw, 6.2rem);
     line-height: .9;
     animation: throb 1.1s ease-in-out infinite;
   }
   @keyframes throb {
     0%,100% { transform: scale(1) rotate(-1deg); }
-    50%     { transform: scale(1.09) rotate(1deg); }
+    50%     { transform: scale(1.07) rotate(1deg); }
   }
 
   .crime {
-    margin: .8em auto 0;
+    margin: .6em auto 0;
     max-width: 30ch;
-    font-size: clamp(1.05rem, 4.2vw, 1.6rem);
+    font-size: clamp(.9rem, 3.2vw, 1.35rem);
     font-weight: 700;
     color: #fff;
     text-shadow: 2px 2px 0 #000, 0 0 14px #ff0099;
@@ -166,10 +175,10 @@
   }
   .crime .yell {
     display: block;
-    margin-top: .5em;
+    margin-top: .4em;
     font-family: 'Rubik Glitch', cursive;
     color: #66ff00;
-    font-size: 1.15em;
+    font-size: 1.1em;
     animation: blink 1.1s steps(1) infinite;
   }
   @keyframes blink { 50% { opacity: .15; } }
@@ -178,26 +187,25 @@
   .sticker {
     position: absolute;
     font-family: 'Bowlby One SC', cursive;
-    font-size: clamp(.85rem, 3.5vw, 1.6rem);
-    padding: .45em .8em;
+    font-size: clamp(.6rem, 2.6vw, 1.2rem);
+    padding: .4em .7em;
     border-radius: 999px;
     border: 5px dotted #000;
     z-index: 5;
     animation: bobble 2.3s ease-in-out infinite;
   }
-  .s1 { top: -6%; left: -5%;  background: #66ff00; color: #000; rotate: -18deg; }
-  .s2 { bottom: -8%; right: -4%; background: #ff0099; color: #fff; rotate: 14deg; animation-delay: .4s; }
-  .s3 { top: 40%; right: -9%; background: #00d4ff; color: #000; rotate: 8deg; animation-delay: .8s; }
+  .s1 { top: -5%; left: -2%;  background: #66ff00; color: #000; rotate: -18deg; }
+  .s2 { bottom: -6%; right: -2%; background: #ff0099; color: #fff; rotate: 14deg; animation-delay: .4s; }
+  .s3 { top: 42%; right: -5%; background: #00d4ff; color: #000; rotate: 8deg; animation-delay: .8s; }
   @keyframes bobble {
     0%,100% { transform: translateY(0) scale(1); }
-    50%     { transform: translateY(-14px) scale(1.12); }
+    50%     { transform: translateY(-12px) scale(1.1); }
   }
 
   /* floaters */
   .floater {
     position: fixed;
     bottom: -12vh;
-    font-size: 2.6rem;
     z-index: 3;
     pointer-events: none;
     animation: rise linear forwards;
@@ -219,25 +227,18 @@
 
   /* retro counter */
   .counter {
-    margin-top: 2.5rem;
+    margin-top: 1.4rem;
     display: inline-block;
     font-family: 'Rubik Glitch', monospace;
     background: #000;
     color: #ff0;
     border: 5px outset #888;
-    padding: .5em 1em;
-    font-size: clamp(.75rem, 2.8vw, 1rem);
+    padding: .4em .9em;
+    font-size: clamp(.65rem, 2.4vw, .95rem);
     letter-spacing: 3px;
     rotate: -2deg;
   }
   .counter span { color: #0f0; }
-
-  .shake { animation: quake .4s linear; }
-  @keyframes quake {
-    10%,90% { transform: translate(-6px, 3px) rotate(-1deg); }
-    30%,70% { transform: translate(8px, -5px) rotate(1.5deg); }
-    50%     { transform: translate(-9px, 6px) rotate(-2deg); }
-  }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 12s !important; }
@@ -248,7 +249,7 @@
 
 <div class="strip top"><i id="tickA"></i></div>
 
-<main class="stage">
+<main class="stage" id="stage">
   <div class="burst" aria-hidden="true"></div>
 
   <h1 id="title" aria-label="Who Fucked This?"></h1>
@@ -273,18 +274,28 @@
 <div class="strip bottom"><i id="tickB"></i></div>
 
 <script>
-  /* ── title: one <b> per letter, rainbow cycled, staggered hop ── */
+  /* ── title: one <b> per letter, grouped per word so it can't split ── */
   const COLORS = ['#ff0055','#ff8800','#ffee00','#66ff00','#00ffaa','#00d4ff','#cc00ff'];
   const title = document.getElementById('title');
-  [...'WHO FUCKED THIS?'].forEach((ch, i) => {
-    const b = document.createElement('b');
-    if (ch === ' ') { b.className = 'sp'; b.innerHTML = '&nbsp;'; }
-    else {
+  let i = 0;
+  'WHO FUCKED THIS?'.split(' ').forEach((word, w) => {
+    if (w > 0) {
+      const gap = document.createElement('b');
+      gap.className = 'sp';
+      gap.innerHTML = '&nbsp;';
+      title.appendChild(gap);
+    }
+    const wrap = document.createElement('span');
+    wrap.className = 'word';
+    [...word].forEach(ch => {
+      const b = document.createElement('b');
       b.textContent = ch;
       b.style.color = COLORS[i % COLORS.length];
-    }
-    b.style.animationDelay = (i * 0.07) + 's';
-    title.appendChild(b);
+      b.style.animationDelay = (i * 0.07) + 's';
+      wrap.appendChild(b);
+      i++;
+    });
+    title.appendChild(wrap);
   });
 
   /* ── tickers ── */
@@ -299,7 +310,7 @@
     const f = document.createElement('div');
     f.className = 'floater';
     f.textContent = DOOM[Math.floor(Math.random() * DOOM.length)];
-    f.style.left = Math.random() * 96 + 'vw';
+    f.style.left = Math.random() * 92 + 'vw';
     f.style.animationDuration = (5 + Math.random() * 5) + 's';
     f.style.fontSize = (1.6 + Math.random() * 2.4) + 'rem';
     document.body.appendChild(f);
@@ -322,17 +333,18 @@
   });
 
   /* ── click = earthquake + confetti dump ── */
+  const stage = document.getElementById('stage');
   addEventListener('click', e => {
-    document.body.classList.remove('shake');
-    void document.body.offsetWidth;
-    document.body.classList.add('shake');
-    for (let i = 0; i < 26; i++) {
+    stage.classList.remove('shake');
+    void stage.offsetWidth;
+    stage.classList.add('shake');
+    for (let k = 0; k < 26; k++) {
       const c = document.createElement('div');
       c.className = 'spark';
       c.textContent = '▮';
       c.style.left = e.clientX + 'px';
       c.style.top = e.clientY + 'px';
-      c.style.color = COLORS[i % COLORS.length];
+      c.style.color = COLORS[k % COLORS.length];
       c.style.transition = 'transform .9s ease-out, opacity .9s';
       document.body.appendChild(c);
       requestAnimationFrame(() => {
