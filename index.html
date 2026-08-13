@@ -1,88 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Who Fucked This</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Who Fucked This</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Shrikhand&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --locto-orange: #e14817;
+    --locto-teal:   #298398;
+    --bubblegum:    #ff2d95;
+    --lime:         #b6ff00;
+    --grape:        #7c00ff;
+    --cyan:         #00e0ff;
+    --cream:        #fff7e0;
+    --ink:          #12002b;
+  }
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+  * { box-sizing: border-box; }
 
-    :root {
-      --acid-pink: #ff00ff;
-      --neon-green: #00ff9c;
-      --electric-blue: #00e5ff;
-      --acid-yellow: #ffee00;
-      --void-black: #020025;
-    }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 6vh 4vw;
+    overflow-x: hidden;
+    background: var(--ink);
+    font-family: 'Space Mono', monospace;
+    color: var(--ink);
+  }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: 'Staatliches', sans-serif;
-      text-align: center;
-      background:
-        repeating-linear-gradient(
-          45deg,
-          var(--acid-pink),
-          var(--acid-pink) 30px,
-          var(--electric-blue) 30px,
-          var(--electric-blue) 60px
-        );
-    }
+  /* ── the big spinning carnival wheel behind everything ── */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -60vmax;
+    z-index: -2;
+    background: conic-gradient(
+      var(--bubblegum) 0 8.33%, var(--lime) 0 16.66%,
+      var(--cyan) 0 25%,          var(--locto-orange) 0 33.33%,
+      var(--grape) 0 41.66%,      var(--cream) 0 50%,
+      var(--locto-teal) 0 58.33%, var(--bubblegum) 0 66.66%,
+      var(--lime) 0 75%,          var(--cyan) 0 83.33%,
+      var(--locto-orange) 0 91.66%, var(--grape) 0 100%
+    );
+    animation: spin 40s linear infinite;
+  }
 
-    .overlay {
-      min-height: 100vh;
-      padding-top: 20vh;
-      background:
-        radial-gradient(
-          circle,
-          rgba(0,0,0,0.2),
-          var(--void-black) 70%
-        );
-      backdrop-filter: blur(4px);
-    }
+  /* ── harlequin diamonds on top of the wheel ── */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      repeating-conic-gradient(from 45deg, rgba(18,0,43,.55) 0 25%, transparent 0 50%) 0 0 / 90px 90px,
+      radial-gradient(circle at 50% 40%, transparent 20%, rgba(18,0,43,.75) 85%);
+  }
 
-    h1 {
-      font-size: 5em;
-      letter-spacing: 5px;
-      margin-bottom: 30px;
-      color: var(--acid-yellow);
-      text-transform: uppercase;
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-      text-shadow:
-        -4px -4px 0 var(--acid-pink),
-         4px -4px 0 var(--neon-green),
-        -4px  4px 0 var(--electric-blue),
-         4px  4px 0 #000,
-         0 0 25px var(--acid-yellow);
-    }
+  .board {
+    position: relative;
+    width: min(760px, 100%);
+    text-align: center;
+    animation: wobble 6s ease-in-out infinite;
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-1.2deg); }
+    50%      { transform: rotate(1.2deg); }
+  }
 
-    .name {
-      font-size: 2.2em;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 25px;
-      line-height: 1.4;
-      background: linear-gradient(
-        135deg,
-        var(--neon-green),
-        var(--electric-blue)
-      );
-      color: #000;
-      border: 6px solid var(--acid-pink);
-      box-shadow:
-        0 0 20px var(--neon-green),
-        inset 0 0 15px #fff;
-    }
-  </style>
+  /* ── starburst that rotates behind the title ── */
+  .burst {
+    position: absolute;
+    top: -12%;
+    left: 50%;
+    width: 130%;
+    aspect-ratio: 1;
+    translate: -50% 0;
+    z-index: -1;
+    background: repeating-conic-gradient(
+      from 0deg,
+      var(--acid, var(--lime)) 0 3deg,
+      transparent 0 9deg
+    );
+    opacity: .5;
+    animation: spin 24s linear infinite reverse;
+    mask: radial-gradient(circle, #000 30%, transparent 72%);
+  }
+
+  h1 {
+    margin: 0 0 .1em;
+    font-family: 'Bungee Shade', system-ui;
+    font-size: clamp(2.4rem, 11vw, 6rem);
+    line-height: .95;
+    letter-spacing: 2px;
+    color: var(--cream);
+    text-transform: uppercase;
+    text-shadow:
+      3px 3px 0 var(--bubblegum),
+      6px 6px 0 var(--locto-teal),
+      9px 9px 0 var(--ink);
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: 1.4em;
+    padding: .35em 1.2em;
+    font-size: clamp(.65rem, 2.4vw, .85rem);
+    letter-spacing: .35em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--lime);
+    border: 3px solid var(--ink);
+    rotate: -2deg;
+  }
+
+  /* ── the verdict card ── */
+  .verdict {
+    position: relative;
+    padding: clamp(1.5rem, 5vw, 2.75rem);
+    background:
+      repeating-linear-gradient(-45deg, rgba(255,255,255,.35) 0 14px, transparent 0 28px),
+      linear-gradient(150deg, var(--cyan), var(--cream) 45%, var(--bubblegum));
+    border: 8px solid var(--ink);
+    border-radius: 26px 6px 26px 6px;
+    box-shadow: 14px 14px 0 var(--grape), 0 0 0 4px var(--cream) inset;
+    rotate: 1.5deg;
+  }
+
+  .culprit {
+    margin: 0;
+    font-family: 'Shrikhand', cursive;
+    font-size: clamp(2.6rem, 14vw, 5.5rem);
+    line-height: 1;
+    color: var(--locto-orange);
+    text-shadow: 4px 4px 0 var(--cream), 7px 7px 0 var(--ink);
+  }
+
+  .charge {
+    margin: .6em auto 0;
+    max-width: 34ch;
+    font-size: clamp(1rem, 3.4vw, 1.35rem);
+    line-height: 1.5;
+  }
+  .charge b { background: var(--acid-hl, var(--lime)); padding: 0 .25em; }
+
+  /* ── rubber stamp that slams in on load ── */
+  .stamp {
+    position: absolute;
+    right: -4%;
+    bottom: -10%;
+    padding: .5em .9em;
+    font-family: 'Bungee Shade', system-ui;
+    font-size: clamp(1.1rem, 4.5vw, 2rem);
+    color: var(--bubblegum);
+    border: 6px double var(--bubblegum);
+    border-radius: 8px;
+    background: rgba(255,247,224,.9);
+    rotate: -14deg;
+    animation: slam .7s cubic-bezier(.2,1.6,.4,1) .5s both;
+  }
+  @keyframes slam {
+    from { scale: 4; opacity: 0; rotate: 12deg; }
+    to   { scale: 1; opacity: 1; rotate: -14deg; }
+  }
+
+  /* ── damage ticker ── */
+  .ticker {
+    margin-top: 2.2rem;
+    overflow: hidden;
+    border-block: 5px solid var(--lime);
+    background: var(--ink);
+    color: var(--lime);
+    rotate: -1deg;
+  }
+  .ticker span {
+    display: inline-block;
+    padding: .6em 0;
+    white-space: nowrap;
+    font-size: clamp(.7rem, 2.6vw, .95rem);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    animation: slide 22s linear infinite;
+  }
+  @keyframes slide {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; }
+  }
+</style>
 </head>
 <body>
-  <div class="overlay">
+  <main class="board">
+    <div class="burst" aria-hidden="true"></div>
+
+    <span class="eyebrow">Incident board &middot; site-wide</span>
     <h1>Who Fucked This?</h1>
 
-    <div class="name">
-      KO - Turned off the RV server! What makes you think you just turn off fucking servers?
+    <section class="verdict">
+      <p class="culprit">Jerome</p>
+      <p class="charge">
+        Pushed the <b>CIPP templates</b> live and completely fucked
+        <b>MFA prompts</b> for the entire site. Everyone. All of them.
+      </p>
+      <div class="stamp">Guilty</div>
+    </section>
+
+    <div class="ticker" aria-hidden="true">
+      <span>
+        CIPP templates &rarr; live &nbsp;&bull;&nbsp; MFA prompts &rarr; cooked &nbsp;&bull;&nbsp; blast radius &rarr; whole site &nbsp;&bull;&nbsp; test tenant &rarr; unused &nbsp;&bull;&nbsp;
+        CIPP templates &rarr; live &nbsp;&bull;&nbsp; MFA prompts &rarr; cooked &nbsp;&bull;&nbsp; blast radius &rarr; whole site &nbsp;&bull;&nbsp; test tenant &rarr; unused &nbsp;&bull;&nbsp;
+      </span>
     </div>
-  </div>
+  </main>
 </body>
 </html>
