@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>★彡 WHO FUCKED THIS 彡★</title>
+<title>★彡 WHO FUCKED HIS SHOULDER 彡★</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rubik+Glitch&family=Bowlby+One+SC&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
@@ -160,28 +160,32 @@
   .crime {
     margin: .6em auto 0;
     max-width: 30ch;
-    font-size: clamp(.9rem, 3.2vw, 1.35rem);
+    font-size: clamp(1rem, 3.6vw, 1.5rem);
     font-weight: 700;
+    line-height: 1.5;
     color: #fff;
-    text-shadow: 2px 2px 0 #000, 0 0 14px #ff0099;
+    text-shadow: 2px 2px 0 #000;
   }
   .crime em {
     font-style: normal;
     background: #ffee00; color: #000;
-    padding: 0 .3em;
+    padding: .05em .35em;
     display: inline-block;
-    rotate: -3deg;
-    box-shadow: 3px 3px 0 #ff0055;
+    rotate: -1.5deg;
+    text-shadow: none;
+    box-shadow: 3px 3px 0 #000;
   }
   .crime .yell {
     display: block;
-    margin-top: .4em;
-    font-family: 'Rubik Glitch', cursive;
+    margin-top: .55em;
+    font-family: 'Bowlby One SC', cursive;
     color: #66ff00;
-    font-size: 1.1em;
-    animation: blink 1.1s steps(1) infinite;
+    font-size: 1.05em;
+    letter-spacing: 1px;
+    text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+    animation: blink 2.4s ease-in-out infinite;
   }
-  @keyframes blink { 50% { opacity: .15; } }
+  @keyframes blink { 50% { opacity: .55; } }
 
   /* stickers */
   .sticker {
@@ -252,23 +256,23 @@
 <main class="stage" id="stage">
   <div class="burst" aria-hidden="true"></div>
 
-  <h1 id="title" aria-label="Who Fucked This?"></h1>
+  <h1 id="title" aria-label="Who Fucked His Shoulder?"></h1>
 
   <section class="frame">
-    <span class="sticker s1" aria-hidden="true">HE DID IT</span>
-    <span class="sticker s2" aria-hidden="true">GUILTY!!!</span>
-    <span class="sticker s3" aria-hidden="true">NO TAKEBACKS</span>
+    <span class="sticker s1" aria-hidden="true">HE FLIPPED</span>
+    <span class="sticker s2" aria-hidden="true">SELF-INFLICTED!!!</span>
+    <span class="sticker s3" aria-hidden="true">NO LANDING</span>
     <div class="inner">
-      <p class="name">JEROME</p>
+      <p class="name">PETER</p>
       <p class="crime">
-        Shoved the <em>CIPP templates</em> LIVE and completely fucked
-        <em>MFA prompts</em> for the ENTIRE site.
-        <span class="yell">&#9760; NOBODY CAN LOG IN &#9760;</span>
+        Attempted <em>BACKFLIPS</em> in his own backyard and comprehensively
+        fucked his <em>RIGHT SHOULDER</em>.
+        <span class="yell">&#9760; CAN'T TRIAGE, CAN'T CLICK &#9760;</span>
       </p>
     </div>
   </section>
 
-  <div class="counter">FUCK-UPS SINCE LAST FUCK-UP: <span id="hits">000000</span></div>
+  <div class="counter">TICKETS UNTRIAGED SINCE TAKEOFF: <span id="hits">000000</span></div>
 </main>
 
 <div class="strip bottom"><i id="tickB"></i></div>
@@ -278,7 +282,7 @@
   const COLORS = ['#ff0055','#ff8800','#ffee00','#66ff00','#00ffaa','#00d4ff','#cc00ff'];
   const title = document.getElementById('title');
   let i = 0;
-  'WHO FUCKED THIS?'.split(' ').forEach((word, w) => {
+  'WHO FUCKED HIS SHOULDER?'.split(' ').forEach((word, w) => {
     if (w > 0) {
       const gap = document.createElement('b');
       gap.className = 'sp';
@@ -299,13 +303,13 @@
   });
 
   /* ── tickers ── */
-  const A = ' ★ CIPP TEMPLATES: LIVE ★ MFA PROMPTS: OBLITERATED ★ BLAST RADIUS: EVERYONE ★ TEST TENANT: UNTOUCHED ★ JEROME: BANNED FROM THE BIG RED BUTTON ★ ';
-  const B = ' ☠ 400 UNREAD TICKETS ☠ PHONES MELTING ☠ "it worked in my head" — J. ☠ PLEASE HOLD ☠ ';
+  const A = ' ★ BACKFLIPS ATTEMPTED: 4 ★ BACKFLIPS LANDED: 0 ★ ROTATION: INCOMPLETE ★ RIGHT ARM: DECORATIVE ★ MOUSE HAND: OFFLINE ★ PETER: BANNED FROM THE LAWN ★ ';
+  const B = ' ☠ TRIAGE QUEUE ABANDONED ☠ TYPING AT 4 WORDS PER MINUTE ☠ "the first three were fine" — P. ☠ PLEASE HOLD ☠ ';
   document.getElementById('tickA').textContent = A.repeat(4);
   document.getElementById('tickB').textContent = B.repeat(5);
 
   /* ── drifting doom emoji ── */
-  const DOOM = ['🔐','🚨','🤡','💀','🔥','📵','🙃','🧯','☠️','🫠'];
+  const DOOM = ['🤸','🩼','🤕','💀','🧊','🖱️','🙃','🩹','☠️','🫠'];
   setInterval(() => {
     const f = document.createElement('div');
     f.className = 'floater';
