@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>★彡 WHO FUCKED HIS SHOULDER 彡★</title>
+<title>★彡 WHO FUCKED THIS? 彡★</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Rubik+Glitch&family=Bowlby+One+SC&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
@@ -105,7 +105,7 @@
     margin: 0 0 .2em;
     padding: .2em 0;
     font-family: 'Bowlby One SC', cursive;
-    font-size: clamp(1.3rem, 6.2vw, 3.9rem);
+    font-size: clamp(1.6rem, 8vw, 4.6rem);
     text-transform: uppercase;
     line-height: 1.1;
     -webkit-text-stroke: 3px #000;
@@ -159,7 +159,7 @@
 
   .crime {
     margin: .6em auto 0;
-    max-width: 30ch;
+    max-width: 32ch;
     font-size: clamp(1rem, 3.6vw, 1.5rem);
     font-weight: 700;
     line-height: 1.5;
@@ -256,23 +256,24 @@
 <main class="stage" id="stage">
   <div class="burst" aria-hidden="true"></div>
 
-  <h1 id="title" aria-label="Who Fucked His Shoulder?"></h1>
+  <h1 id="title" aria-label="Who Fucked This?"></h1>
 
   <section class="frame">
-    <span class="sticker s1" aria-hidden="true">HE FLIPPED</span>
-    <span class="sticker s2" aria-hidden="true">SELF-INFLICTED!!!</span>
-    <span class="sticker s3" aria-hidden="true">NO LANDING</span>
+    <span class="sticker s1" aria-hidden="true">.2 IS TAKEN</span>
+    <span class="sticker s2" aria-hidden="true">"CAN BE ANYTHING"</span>
+    <span class="sticker s3" aria-hidden="true">x2 CLIENTS</span>
     <div class="inner">
-      <p class="name">PETER</p>
+      <p class="name">PHIL</p>
       <p class="crime">
-        Attempted <em>BACKFLIPS</em> in his own backyard and comprehensively
-        fucked his <em>RIGHT SHOULDER</em>.
-        <span class="yell">&#9760; CAN'T TRIAGE, CAN'T CLICK &#9760;</span>
+        Set the UniFi <em>HONEYPOT</em> to an IP that was already a
+        client's <em>STATIC IP</em>. Then did it again at a
+        <em>SECOND CLIENT</em>.
+        <span class="yell">&#9760; THE ROUTER ATE THE PACKETS &#9760;</span>
       </p>
     </div>
   </section>
 
-  <div class="counter">TICKETS UNTRIAGED SINCE TAKEOFF: <span id="hits">000000</span></div>
+  <div class="counter">PACKETS SWALLOWED BY THE HONEYPOT: <span id="hits">000000</span></div>
 </main>
 
 <div class="strip bottom"><i id="tickB"></i></div>
@@ -282,7 +283,7 @@
   const COLORS = ['#ff0055','#ff8800','#ffee00','#66ff00','#00ffaa','#00d4ff','#cc00ff'];
   const title = document.getElementById('title');
   let i = 0;
-  'WHO FUCKED HIS SHOULDER?'.split(' ').forEach((word, w) => {
+  'WHO FUCKED THIS?'.split(' ').forEach((word, w) => {
     if (w > 0) {
       const gap = document.createElement('b');
       gap.className = 'sp';
@@ -303,13 +304,13 @@
   });
 
   /* ── tickers ── */
-  const A = ' ★ BACKFLIPS ATTEMPTED: 4 ★ BACKFLIPS LANDED: 0 ★ ROTATION: INCOMPLETE ★ RIGHT ARM: DECORATIVE ★ MOUSE HAND: OFFLINE ★ PETER: BANNED FROM THE LAWN ★ ';
-  const B = ' ☠ TRIAGE QUEUE ABANDONED ☠ TYPING AT 4 WORDS PER MINUTE ☠ "the first three were fine" — P. ☠ PLEASE HOLD ☠ ';
+  const A = ' ★ HONEYPOTS DEPLOYED: 2 ★ IP CONFLICTS CAUSED: 2 ★ SUCCESS RATE: 100% ★ BACKUP APPLIANCE: OFFLINE FOR 3 DAYS ★ ROUTER: "THAT .2 IS MINE NOW" ★ ARP TABLE: CRYING ★ ';
+  const B = ' ☠ "honeypot ip can be anything. best to be low" — P. Brown ☠ LOW: ACHIEVED ☠ FREE: NOT ACHIEVED ☠ CHECK YOUR STATICS ☠ PLEASE HOLD ☠ ';
   document.getElementById('tickA').textContent = A.repeat(4);
   document.getElementById('tickB').textContent = B.repeat(5);
 
   /* ── drifting doom emoji ── */
-  const DOOM = ['🤸','🩼','🤕','💀','🧊','🖱️','🙃','🩹','☠️','🫠'];
+  const DOOM = ['🍯','🐝','💥','🔌','📡','💀','🙃','🚫','☠️','🫠'];
   setInterval(() => {
     const f = document.createElement('div');
     f.className = 'floater';
